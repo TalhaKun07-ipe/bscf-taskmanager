@@ -207,7 +207,7 @@ export default function QuickFindModal({
 
           {filtered.length === 0 && (
             <div className="py-12 text-center text-zinc-400 text-xs">
-              No matching items found for "{query}"
+              No matching items found for &quot;{query}&quot;
             </div>
           )}
         </div>

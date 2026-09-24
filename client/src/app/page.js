@@ -52,6 +52,30 @@ export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const refreshTasks = useCallback(async () => {
+    try {
+      const params = {};
+      if (selectedProject) params.projectId = selectedProject;
+      if (priorityFilter) params.priority = priorityFilter;
+      if (assigneeFilter) params.assignee = assigneeFilter;
+      if (searchQuery) params.search = searchQuery;
+
+      const tasksRes = await getTasks(params);
+      setTasks(tasksRes);
+    } catch (e) {
+      console.error('Error loading tasks:', e);
+    }
+  }, [selectedProject, priorityFilter, assigneeFilter, searchQuery]);
+
+  const refreshAllocations = useCallback(async () => {
+    try {
+      const matrix = await getAllocationMatrix();
+      setAllocationData(matrix);
+    } catch (e) {
+      console.error('Error loading allocation matrix:', e);
+    }
+  }, []);
+
   // Load initial data
   const loadAllData = useCallback(async () => {
     try {
@@ -80,31 +104,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  }, [currentUserId, selectedDocId]);
-
-  const refreshTasks = async () => {
-    try {
-      const params = {};
-      if (selectedProject) params.projectId = selectedProject;
-      if (priorityFilter) params.priority = priorityFilter;
-      if (assigneeFilter) params.assignee = assigneeFilter;
-      if (searchQuery) params.search = searchQuery;
-
-      const tasksRes = await getTasks(params);
-      setTasks(tasksRes);
-    } catch (e) {
-      console.error('Error loading tasks:', e);
-    }
-  };
-
-  const refreshAllocations = async () => {
-    try {
-      const matrix = await getAllocationMatrix();
-      setAllocationData(matrix);
-    } catch (e) {
-      console.error('Error loading allocation matrix:', e);
-    }
-  };
+  }, [currentUserId, selectedDocId, refreshTasks, refreshAllocations]);
 
   // Re-fetch when filters change
   useEffect(() => {

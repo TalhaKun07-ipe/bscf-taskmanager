@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react';
 import {
   CalendarDateIcon,
   ClockTimeIcon,
@@ -77,7 +77,7 @@ export default function CalendarView({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h2 className="text-lg font-bold text-zinc-900 flex items-center gap-2">
-            <CalendarIcon className="w-5 h-5 text-orange-600" />
+            <CalendarDateIcon className="w-5 h-5" />
             <span>{format(currentDate, 'MMMM yyyy')}</span>
           </h2>
           <button
@@ -186,7 +186,7 @@ export default function CalendarView({
                         }`}
                       >
                         <span className="truncate">{t.title}</span>
-                        {isUrgent && <Flame className="w-3 h-3 text-rose-600 shrink-0" />}
+                        {isUrgent && <FlameUrgentIcon className="w-3.5 h-3.5 shrink-0" />}
                       </div>
                     );
                   })}

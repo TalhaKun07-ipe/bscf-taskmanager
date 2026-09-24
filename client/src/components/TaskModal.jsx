@@ -7,7 +7,8 @@ import {
   TagLabelIcon,
   CommentChatIcon,
   SendPlaneIcon,
-  PlusAddIcon
+  PlusAddIcon,
+  CheckmarkIcon
 } from '@/components/icons/CustomStyleIcons';
 import { format } from 'date-fns';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
@@ -23,8 +24,6 @@ export default function TaskModal({
   projects = [],
   currentMember
 }) {
-  if (!isOpen) return null;
-
   const isNew = !task?._id;
 
   const [title, setTitle] = useState(task?.title || '');
@@ -158,6 +157,8 @@ export default function TaskModal({
     ]);
     setNewCommentText('');
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs select-none">
@@ -387,7 +388,7 @@ export default function TaskModal({
           <div>
             <div className="flex items-center justify-between mb-2">
               <label className="text-xs font-semibold text-zinc-600 flex items-center gap-1.5">
-                <CheckSquare className="w-3.5 h-3.5 text-orange-600" />
+                <CheckmarkIcon className="w-3.5 h-3.5" />
                 <span>Checklist Subtasks</span>
               </label>
               <span className="text-[11px] text-zinc-500">
@@ -453,7 +454,7 @@ export default function TaskModal({
           {/* Tags */}
           <div>
             <label className="block text-xs font-semibold text-zinc-600 mb-1.5 flex items-center gap-1.5">
-              <Tag className="w-3.5 h-3.5 text-orange-600" />
+              <TagLabelIcon className="w-3.5 h-3.5" />
               <span>Tags</span>
             </label>
             <div className="flex flex-wrap items-center gap-1.5 mb-2">

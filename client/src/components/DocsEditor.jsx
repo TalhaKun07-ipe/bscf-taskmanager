@@ -323,7 +323,7 @@ export default function DocsEditor({
         </div>
       ) : (
         <div className="flex-1 flex flex-col items-center justify-center text-zinc-400 bg-[#fbfbfa]">
-          <FileText className="w-12 h-12 mb-3 text-zinc-300" />
+          <DocsNotebookIcon className="w-12 h-12 mb-3" />
           <p className="text-sm font-medium text-zinc-600">No document selected</p>
           <button
             onClick={onCreateDoc}
