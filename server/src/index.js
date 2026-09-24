@@ -16,6 +16,7 @@ const server = http.createServer(app);
 
 // Strict Origin Validation (Protects against CSRF & Unauthorized Cross-Origin Exploitation)
 const allowedOrigins = [
+  'https://task.bscf.dev',
   'https://bscf-taskmanager.vercel.app',
   'http://localhost:3000',
   'http://127.0.0.1:3000'
@@ -26,6 +27,8 @@ function isOriginAllowed(origin) {
   if (allowedOrigins.includes(origin)) return true;
   // Allow preview deployments generated under this project on Vercel
   if (/^https:\/\/bscf-taskmanager.*\.vercel\.app$/.test(origin)) return true;
+  // Allow official bscf.dev domains and subdomains
+  if (/^https:\/\/([a-z0-9-]+\.)?bscf\.dev$/.test(origin)) return true;
   return false;
 }
 
