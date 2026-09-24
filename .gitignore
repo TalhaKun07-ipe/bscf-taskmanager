@@ -1,0 +1,29 @@
+# Root dependencies & artifacts
+node_modules/
+package-lock.json
+
+# Environment files with passwords/secrets
+.env
+.env.*
+!.env.example
+
+# Next.js build output
+.next/
+out/
+build/
+
+# Server local databases & logs
+server/data/*.db
+server/data/*.db-journal
+*.log
+
+# Scraper temporary files
+team.html
+youth.html
+all_members.json
+formatted_members.json
+scratch/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,282 @@
+[
+  {
+    "name": "Niloy Saha",
+    "email": "niloysaha@bscf.dev",
+    "role": "Founder & CEO",
+    "department": "Executive",
+    "avatar": "https://bscf.dev/_astro/founder.C0mmrRs0_23uYvo.webp",
+    "color": "#dc2626",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Md. Reashad Akhter",
+    "email": "md.reashadakhter@bscf.dev",
+    "role": "Executive Director",
+    "department": "Executive",
+    "avatar": "https://bscf.dev/_astro/reashad.DIPzX-sQ_Z1J6Wfy.webp",
+    "color": "#ea580c",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Rafia Jebin",
+    "email": "rafiajebin@bscf.dev",
+    "role": "Director",
+    "department": "Organisation",
+    "avatar": "https://bscf.dev/_astro/rafia.BlEiRbOh_19XsfG.webp",
+    "color": "#f97316",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Redwan Ahmed",
+    "email": "redwanahmed@bscf.dev",
+    "role": "Director",
+    "department": "Events & Administration",
+    "avatar": "https://bscf.dev/_astro/redwan.CivxvBbD_Z1Gbf4i.webp",
+    "color": "#f97316",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Aurit Ahsan Ohi",
+    "email": "auritahsanohi@bscf.dev",
+    "role": "Director",
+    "department": "Policy & Legal Affairs",
+    "avatar": "https://bscf.dev/_astro/ohi.zwko450L_1URSaz.webp",
+    "color": "#f97316",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Sadia Nowshin Sharin",
+    "email": "sadianowshinsharin@bscf.dev",
+    "role": "Senior Assistant Director",
+    "department": "External Affairs",
+    "avatar": "https://bscf.dev/_astro/sharin.C_5sXZko_2r5oQP.webp",
+    "color": "#f59e0b",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Arabinda Banerjee Anik",
+    "email": "arabindabanerjeeanik@bscf.dev",
+    "role": "Senior Assistant Director",
+    "department": "Finance & Program",
+    "avatar": "https://bscf.dev/_astro/arabinda.pywQ1Xc__ZO0h7R.webp",
+    "color": "#f59e0b",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Zarin Roshni",
+    "email": "zarinroshni@bscf.dev",
+    "role": "Senior Assistant Director",
+    "department": "Branding & Communication",
+    "avatar": "https://bscf.dev/_astro/zarin.DmXslmGr_ZgSaE1.webp",
+    "color": "#f59e0b",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Safiat Rahaman Sifat",
+    "email": "safiatrahamansifat@bscf.dev",
+    "role": "Senior Assistant Director",
+    "department": "Grassroots Coordination",
+    "avatar": "https://bscf.dev/_astro/sifat.DCnEPANK_27ALvt.webp",
+    "color": "#f59e0b",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Avik Arefin",
+    "email": "avikarefin@bscf.dev",
+    "role": "Assistant Director",
+    "department": "IT & Logistics",
+    "avatar": "https://bscf.dev/_astro/avik.BUKCftyT_ZHy0MB.webp",
+    "color": "#3b82f6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Ahnaf Tahsin Monmoy",
+    "email": "ahnaftahsinmonmoy@bscf.dev",
+    "role": "Assistant Director",
+    "department": "Business Development",
+    "avatar": "https://bscf.dev/_astro/monmoy.ye0vNhr2_IYPeF.webp",
+    "color": "#3b82f6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Abdullah Al Hossain Sami",
+    "email": "abdullahalhossainsami@bscf.dev",
+    "role": "Assistant Director",
+    "department": "Programme & Partnership",
+    "avatar": "https://bscf.dev/_astro/sami.DGUewV0O_Z1fumaY.webp",
+    "color": "#3b82f6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "kazi Abdullah Al Sahil",
+    "email": "kaziabdullahalsahil@bscf.dev",
+    "role": "Assistant Director",
+    "department": "Events & Administration",
+    "avatar": "https://bscf.dev/_astro/sahil.DXIZdJqP_Z2mYYeR.webp",
+    "color": "#3b82f6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Talha Zubayer",
+    "email": "talhazubayer@bscf.dev",
+    "role": "Assistant Director",
+    "department": "Creative & YN Affairs",
+    "avatar": "https://bscf.dev/_astro/talha.BzeuWzUD_Z4hODN.webp",
+    "color": "#3b82f6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "S.M. Labib",
+    "email": "sm.labib@bscf.dev",
+    "role": "Assistant Director",
+    "department": "Creative",
+    "avatar": "https://bscf.dev/_astro/labib.iffDGHVK_Z1zleXS.webp",
+    "color": "#3b82f6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Nafis Iqbal Niloy",
+    "email": "nafisiqbalniloy@bscf.dev",
+    "role": "Assistant Director",
+    "department": "Creative",
+    "avatar": "https://bscf.dev/_astro/niloy.6xVUsLIa_2pofem.webp",
+    "color": "#3b82f6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Mst Anika Akter",
+    "email": "mst.anikaakter@bscf.dev",
+    "role": "Assistant Director",
+    "department": "Procurement",
+    "avatar": "https://bscf.dev/_astro/anika.DB7PSLp4_1Lgt84.webp",
+    "color": "#3b82f6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Fatema Tuz Jannat Noor",
+    "email": "fatematuzjannatnoor@bscf.dev",
+    "role": "Executive",
+    "department": "Policy & Programme",
+    "avatar": "https://bscf.dev/_astro/noor.DhJWWHPh_1i5oUr.webp",
+    "color": "#8b5cf6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Jariat Maisha",
+    "email": "jariatmaisha@bscf.dev",
+    "role": "Executive",
+    "department": "Creative",
+    "avatar": "https://bscf.dev/_astro/maisha.CxuTKVGs_ZLPxbv.webp",
+    "color": "#8b5cf6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Ramisha Mohsin",
+    "email": "ramishamohsin@bscf.dev",
+    "role": "Executive",
+    "department": "Creative",
+    "avatar": "https://bscf.dev/_astro/ramisha.GH2j07K5_Z2dCABI.webp",
+    "color": "#8b5cf6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Sadiya Somayea",
+    "email": "sadiyasomayea@bscf.dev",
+    "role": "Executive",
+    "department": "Creative",
+    "avatar": "https://bscf.dev/_astro/sadiya.CLCFYMCR_I4MR6.webp",
+    "color": "#8b5cf6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Rafaetul Ahmmed Rabit",
+    "email": "rafaetulahmmedrabit@bscf.dev",
+    "role": "Executive",
+    "department": "Climate Affairs",
+    "avatar": "https://bscf.dev/_astro/Rafaetul.CMGndu95_1mss9t.webp",
+    "color": "#8b5cf6",
+    "capacityHours": 35,
+    "network": "Core Team"
+  },
+  {
+    "name": "Priyanka Adhikary",
+    "email": "priyankaadhikary@bscf.dev",
+    "role": "Chief Co-ordinator",
+    "department": "Central Management",
+    "avatar": "https://bscf.dev/_astro/priyanka.DLrZCLNX_1fHr34.webp",
+    "color": "#059669",
+    "capacityHours": 25,
+    "network": "Youth Network"
+  },
+  {
+    "name": "Purnota Kabir",
+    "email": "purnotakabir@bscf.dev",
+    "role": "Co-ordinator",
+    "department": "Youth Network",
+    "avatar": "https://bscf.dev/_astro/purnota.CdzWIUDY_20QO0U.webp",
+    "color": "#10b981",
+    "capacityHours": 25,
+    "network": "Youth Network"
+  },
+  {
+    "name": "Marzukah Talukder Nawer",
+    "email": "marzukahtalukdernawer@bscf.dev",
+    "role": "Co-ordinator",
+    "department": "Youth Network",
+    "avatar": "https://bscf.dev/_astro/marzukah.CszYb_CC_kFNdI.webp",
+    "color": "#10b981",
+    "capacityHours": 25,
+    "network": "Youth Network"
+  },
+  {
+    "name": "Anamika Azad",
+    "email": "anamikaazad@bscf.dev",
+    "role": "Co-ordinator",
+    "department": "Youth Network",
+    "avatar": "https://bscf.dev/_astro/anamika.KQAh-WvG_efFcu.webp",
+    "color": "#10b981",
+    "capacityHours": 25,
+    "network": "Youth Network"
+  },
+  {
+    "name": "Siam Sazzad",
+    "email": "siamsazzad@bscf.dev",
+    "role": "Co-ordinator",
+    "department": "Youth Network",
+    "avatar": "https://bscf.dev/_astro/siam.D9vHf-AS_A5kua.webp",
+    "color": "#10b981",
+    "capacityHours": 25,
+    "network": "Youth Network"
+  },
+  {
+    "name": "Farhan Bin Ashraf",
+    "email": "farhanbinashraf@bscf.dev",
+    "role": "Co-ordinator",
+    "department": "Youth Network",
+    "avatar": "https://bscf.dev/_astro/tanvir.NSEEWq77_29AMBY.webp",
+    "color": "#10b981",
+    "capacityHours": 25,
+    "network": "Youth Network"
+  }
+]
