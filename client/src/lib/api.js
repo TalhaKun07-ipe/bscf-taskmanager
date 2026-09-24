@@ -1,8 +1,9 @@
 import { io } from 'socket.io-client';
 
 export function getApiBase() {
-  if (process.env.NEXT_PUBLIC_API_URL) {
-    return process.env.NEXT_PUBLIC_API_URL;
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (envUrl && (envUrl.startsWith('http://') || envUrl.startsWith('https://'))) {
+    return envUrl;
   }
   if (typeof window !== 'undefined') {
     const host = window.location.hostname;
@@ -14,8 +15,9 @@ export function getApiBase() {
 }
 
 export function getSocketUrl() {
-  if (process.env.NEXT_PUBLIC_SOCKET_URL) {
-    return process.env.NEXT_PUBLIC_SOCKET_URL;
+  const envUrl = process.env.NEXT_PUBLIC_SOCKET_URL;
+  if (envUrl && (envUrl.startsWith('http://') || envUrl.startsWith('https://'))) {
+    return envUrl;
   }
   if (typeof window !== 'undefined') {
     const host = window.location.hostname;
