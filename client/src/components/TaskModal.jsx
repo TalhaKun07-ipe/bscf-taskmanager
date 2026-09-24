@@ -84,26 +84,35 @@ export default function TaskModal({
     }
   }, [task]);
 
-  const handleSubmit = (e) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim()) return;
+    if (!title.trim() || isSubmitting) return;
 
-    const payload = {
-      title,
-      description,
-      status,
-      priority,
-      dueDate: dueDate ? new Date(dueDate).toISOString() : null,
-      startDate: startDate ? new Date(startDate).toISOString() : null,
-      assignees: assigneeIds,
-      projectId: projectId || null,
-      estimatedHours: Number(estimatedHours) || 0,
-      tags,
-      subtasks
-    };
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        title,
+        description,
+        status,
+        priority,
+        dueDate: dueDate ? new Date(dueDate).toISOString() : null,
+        startDate: startDate ? new Date(startDate).toISOString() : null,
+        assignees: assigneeIds,
+        projectId: projectId || null,
+        estimatedHours: Number(estimatedHours) || 0,
+        tags,
+        subtasks
+      };
 
-    onSaveTask(payload, task?._id);
-    onClose();
+      await onSaveTask(payload, task?._id);
+      onClose();
+    } catch (err) {
+      console.error('Error saving task:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleToggleAssignee = (mId) => {
@@ -567,8 +576,11 @@ export default function TaskModal({
             </button>
             <InteractiveHoverButton
               type="submit"
-              text={isNew ? 'Create Task' : 'Save Changes'}
-              className="border-orange-500/40 text-orange-800 bg-orange-50/60 hover:border-orange-600"
+              disabled={isSubmitting}
+              text={isSubmitting ? 'Saving...' : isNew ? 'Create Task' : 'Save Changes'}
+              className={`border-orange-500/40 text-orange-800 bg-orange-50/60 hover:border-orange-600 ${
+                isSubmitting ? 'opacity-50 pointer-events-none' : ''
+              }`}
             />
           </div>
         </form>

@@ -10,6 +10,8 @@ import {
 
 export default function AllocationView({
   allocationData = [],
+  priorityFilter = '',
+  searchQuery = '',
   onOpenTaskModal
 }) {
   const [networkTab, setNetworkTab] = React.useState('all'); // 'all', 'Core Team', 'Youth Network'
@@ -31,14 +33,21 @@ export default function AllocationView({
         ? m.network === 'Core Team' || !m.network
         : m.network === 'Youth Network';
 
+    const q = (searchFilter || searchQuery || '').trim().toLowerCase();
     const matchesSearch =
-      searchFilter.trim() === ''
+      q === ''
         ? true
-        : m.name?.toLowerCase().includes(searchFilter.toLowerCase()) ||
-          m.role?.toLowerCase().includes(searchFilter.toLowerCase()) ||
-          m.department?.toLowerCase().includes(searchFilter.toLowerCase());
+        : m.name?.toLowerCase().includes(q) ||
+          m.role?.toLowerCase().includes(q) ||
+          m.department?.toLowerCase().includes(q);
 
-    return matchesNetwork && matchesSearch;
+    // Filter members: if priorityFilter is active, only show members with at least one task matching that priority
+    const matchesPriority =
+      !priorityFilter
+        ? true
+        : (item.tasks || []).some((t) => t.priority === priorityFilter);
+
+    return matchesNetwork && matchesSearch && matchesPriority;
   });
 
   const totalTasks = allocationData.reduce((acc, a) => acc + (a.totalTasks || 0), 0);
@@ -144,6 +153,17 @@ export default function AllocationView({
           </div>
         </div>
 
+        {priorityFilter && (
+          <div className="mb-4 px-3.5 py-2.5 rounded-xl bg-orange-50/90 border border-orange-200/90 flex items-center justify-between text-xs text-orange-950 shadow-2xs">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-orange-600 animate-pulse"></span>
+              <span>
+                Filtered by priority: <strong className="capitalize">{priorityFilter}</strong> ({filteredData.length} of {allocationData.length} team members assigned)
+              </span>
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {filteredData.map((item) => {
             const m = item.member;
@@ -212,9 +232,13 @@ export default function AllocationView({
                       <div
                         key={task._id}
                         onClick={() => onOpenTaskModal(task)}
-                        className="p-2 rounded-lg bg-zinc-50 hover:bg-zinc-100/80 border border-zinc-200/70 text-xs text-zinc-800 hover:text-zinc-950 flex items-center justify-between cursor-pointer transition-colors shadow-2xs"
+                        className={`p-2 rounded-lg border text-xs flex items-center justify-between cursor-pointer transition-colors shadow-2xs ${
+                          priorityFilter && task.priority === priorityFilter
+                            ? 'bg-orange-50/80 hover:bg-orange-100/80 border-orange-300 text-orange-950 font-medium'
+                            : 'bg-zinc-50 hover:bg-zinc-100/80 border-zinc-200/70 text-zinc-800'
+                        }`}
                       >
-                        <div className="flex items-center gap-2 truncate">
+                        <div className="flex items-center gap-2 truncate flex-1 min-w-0">
                           <span
                             className={`w-2 h-2 rounded-full shrink-0 ${
                               task.status === 'completed'
@@ -226,6 +250,21 @@ export default function AllocationView({
                           ></span>
                           <span className="truncate">{task.title}</span>
                         </div>
+                        {task.priority && (
+                          <span
+                            className={`text-[9.5px] px-1.5 py-0.2 rounded font-semibold uppercase tracking-wider shrink-0 border ml-2 ${
+                              task.priority === 'urgent'
+                                ? 'bg-rose-50 text-rose-700 border-rose-200'
+                                : task.priority === 'high'
+                                ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                : task.priority === 'medium'
+                                ? 'bg-blue-50 text-blue-700 border-blue-200'
+                                : 'bg-zinc-100 text-zinc-600 border-zinc-200'
+                            }`}
+                          >
+                            {task.priority}
+                          </span>
+                        )}
                       </div>
                     ))}
                     {item.tasks.length === 0 && (

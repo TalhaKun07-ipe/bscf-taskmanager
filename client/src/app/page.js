@@ -165,7 +165,7 @@ export default function Home() {
         setTasks((prev) => prev.map((t) => (t._id === id ? updated : t)));
       } else {
         const created = await createTask(taskData);
-        setTasks((prev) => [created, ...prev]);
+        setTasks((prev) => [created, ...prev.filter((t) => t._id !== created._id)]);
       }
       refreshAllocations();
     } catch (err) {
@@ -186,7 +186,7 @@ export default function Home() {
         dueDate: new Date(Date.now() + 86400000 * 3).toISOString()
       };
       const created = await createTask(payload);
-      setTasks((prev) => [created, ...prev]);
+      setTasks((prev) => [created, ...prev.filter((t) => t._id !== created._id)]);
       refreshAllocations();
     } catch (err) {
       console.error('Failed to quick create task:', err);
@@ -379,6 +379,8 @@ export default function Home() {
           {activeView === 'allocation' && (
             <AllocationView
               allocationData={allocationData}
+              priorityFilter={priorityFilter}
+              searchQuery={searchQuery}
               onOpenTaskModal={handleOpenTaskModal}
             />
           )}

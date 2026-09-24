@@ -174,27 +174,31 @@ export default function Sidebar({
             <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
               Initiatives & Programs
             </span>
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px] text-zinc-500 bg-zinc-200/70 px-1.5 py-0.2 rounded font-mono">
-                {projects.length}
-              </span>
-              <button
-                onClick={onOpenCreateProject}
-                title="Add New Initiative"
-                className="p-1 rounded-lg hover:bg-zinc-200 text-zinc-600 hover:text-zinc-950 transition-colors cursor-pointer"
-              >
-                <PlusAddIcon className="w-3.5 h-3.5" />
-              </button>
-            </div>
+            <span className="text-[10px] text-zinc-500 bg-zinc-200/70 px-1.5 py-0.2 rounded font-mono">
+              {projects.length}
+            </span>
           </div>
           <div className="space-y-1">
-            {/* All Initiatives button */}
-            <SidebarInteractiveButton
-              icon={FolderInitiativeIcon}
-              label="All Initiatives"
-              isActive={selectedProject === null}
-              onClick={() => setSelectedProject(null)}
-            />
+            {/* All Initiatives button (clean, no animated dot) */}
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedProject(null);
+                if (activeView === 'docs' || activeView === 'allocation') {
+                  setActiveView('board');
+                }
+              }}
+              className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all cursor-pointer border ${
+                selectedProject === null
+                  ? 'bg-zinc-100 text-zinc-950 font-semibold border-zinc-200 shadow-2xs'
+                  : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 border-transparent'
+              }`}
+            >
+              <div className="flex items-center gap-2 truncate flex-1 min-w-0">
+                <FolderInitiativeIcon className="w-4 h-4 text-zinc-500 shrink-0" />
+                <span className="truncate">All Initiatives</span>
+              </div>
+            </button>
 
             {projects.map((p) => {
               const isSelected = selectedProject === p._id;
@@ -206,7 +210,12 @@ export default function Sidebar({
                       ? 'bg-zinc-100 text-zinc-950 font-semibold border-zinc-200 shadow-2xs'
                       : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 border-transparent'
                   }`}
-                  onClick={() => setSelectedProject(p._id)}
+                  onClick={() => {
+                    setSelectedProject(p._id);
+                    if (activeView === 'docs' || activeView === 'allocation') {
+                      setActiveView('board');
+                    }
+                  }}
                 >
                   <div className="flex items-center gap-2 truncate flex-1 min-w-0">
                     <span
@@ -240,20 +249,9 @@ export default function Sidebar({
             {projects.length === 0 && (
               <button
                 onClick={onOpenCreateProject}
-                className="group relative w-full overflow-hidden rounded-xl px-3 py-2 text-xs font-semibold shadow-2xs transition-all duration-300 cursor-pointer select-none text-left flex items-center justify-between border border-dashed border-zinc-300 bg-white text-zinc-600 hover:border-orange-500 hover:text-orange-600"
+                className="w-full rounded-xl px-3 py-2 text-xs font-semibold shadow-2xs transition-all cursor-pointer select-none text-left flex items-center gap-2 border border-dashed border-zinc-300 bg-white text-zinc-600 hover:border-orange-500 hover:text-orange-600"
               >
-                <div className="flex items-center gap-2 transition-all duration-300 group-hover:translate-x-10 group-hover:opacity-0">
-                  <PlusAddIcon className="w-4 h-4" />
-                  <span>Add Initiative</span>
-                </div>
-                <div className="absolute inset-0 z-10 flex h-full w-full translate-x-10 items-center justify-between px-3 text-white opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 font-semibold">
-                  <div className="flex items-center gap-2">
-                    <PlusAddIcon className="w-4 h-4 brightness-150" />
-                    <span>Add Initiative</span>
-                  </div>
-                  <ArrowRightChunkyIcon className="w-4 h-4" />
-                </div>
-                <div className="absolute left-[12%] top-[40%] h-2 w-2 scale-[1] rounded-full bg-orange-600 transition-all duration-300 group-hover:left-[0%] group-hover:top-[0%] group-hover:h-full group-hover:w-full group-hover:scale-[2] group-hover:bg-orange-600 pointer-events-none"></div>
+                <span>Add Initiative</span>
               </button>
             )}
           </div>
@@ -265,16 +263,6 @@ export default function Sidebar({
             <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
               <span>Pages & Docs</span>
             </span>
-            <button
-              onClick={() => {
-                setActiveView('docs');
-                if (onOpenCreateDoc) onOpenCreateDoc();
-              }}
-              title="Add New Document"
-              className="p-1 rounded-lg hover:bg-zinc-200 text-zinc-600 hover:text-zinc-950 transition-colors cursor-pointer"
-            >
-              <PlusAddIcon className="w-3.5 h-3.5" />
-            </button>
           </div>
           <div className="space-y-1">
             {docs.map((doc) => {

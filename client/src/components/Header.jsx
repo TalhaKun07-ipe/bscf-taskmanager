@@ -91,22 +91,16 @@ export default function Header({
           </div>
         )}
 
-        {/* New Task / New Page Interactive Hover Button */}
-        <div className="shrink-0">
-          {activeView === 'docs' ? (
-            <InteractiveHoverButton
-              text="New Page"
-              onClick={onOpenCreateDoc}
-              className="border-emerald-500/40 text-emerald-800 hover:border-emerald-600 bg-emerald-50/50"
-            />
-          ) : (
+        {/* New Task Interactive Hover Button (hidden on docs view since Docs has its own New button) */}
+        {activeView !== 'docs' && (
+          <div className="shrink-0">
             <InteractiveHoverButton
               text="New Task"
               onClick={onOpenCreateTask}
               className="border-orange-500/40 text-orange-800 hover:border-orange-600 bg-orange-50/50"
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </header>
   );

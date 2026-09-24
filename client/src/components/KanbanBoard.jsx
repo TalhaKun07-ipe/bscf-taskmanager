@@ -55,12 +55,19 @@ export default function KanbanBoard({
     setDraggedTaskId(null);
   };
 
+  const [isSubmittingQuickAdd, setIsSubmittingQuickAdd] = useState(false);
+
   const handleQuickAdd = async (status) => {
     const title = quickTitleByCol[status]?.trim();
-    if (!title) return;
-    await onQuickCreateTask({ title, status });
-    setQuickTitleByCol((prev) => ({ ...prev, [status]: '' }));
-    setIsAddingByCol((prev) => ({ ...prev, [status]: false }));
+    if (!title || isSubmittingQuickAdd) return;
+    setIsSubmittingQuickAdd(true);
+    try {
+      await onQuickCreateTask({ title, status });
+      setQuickTitleByCol((prev) => ({ ...prev, [status]: '' }));
+      setIsAddingByCol((prev) => ({ ...prev, [status]: false }));
+    } finally {
+      setIsSubmittingQuickAdd(false);
+    }
   };
 
   return (
@@ -89,15 +96,6 @@ export default function KanbanBoard({
                   {colTasks.length}
                 </span>
               </div>
-              <button
-                onClick={() =>
-                  setIsAddingByCol((prev) => ({ ...prev, [col.id]: !prev[col.id] }))
-                }
-                className="p-1 rounded-md hover:bg-zinc-200/70 text-zinc-500 hover:text-zinc-900 transition-colors"
-                title={`Add task to ${col.label}`}
-              >
-                <PlusAddIcon className="w-4 h-4" />
-              </button>
             </div>
 
             {/* Quick Task Creator Form */}
