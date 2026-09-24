@@ -3,6 +3,12 @@ const router = express.Router();
 const Task = require('../models/Task');
 const Member = require('../models/Member');
 
+// Helper to escape user input for safe RegExp usage (prevents ReDoS attacks)
+function escapeRegex(string) {
+  if (typeof string !== 'string') return '';
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 // Helper to update active tasks count for members
 async function updateMemberTaskCounts() {
   try {
@@ -28,22 +34,26 @@ async function updateMemberTaskCounts() {
   }
 }
 
-// GET all tasks
+// GET all tasks (with sanitized search query)
 router.get('/', async (req, res) => {
   try {
     const { status, priority, assignee, projectId, search } = req.query;
     const filter = {};
 
-    if (status) filter.status = status;
-    if (priority) filter.priority = priority;
-    if (projectId) filter.projectId = projectId;
-    if (assignee) filter.assignees = assignee;
-    if (search) {
-      filter.$or = [
-        { title: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } },
-        { tags: { $in: [new RegExp(search, 'i')] } }
-      ];
+    if (status && typeof status === 'string') filter.status = status;
+    if (priority && typeof priority === 'string') filter.priority = priority;
+    if (projectId && typeof projectId === 'string') filter.projectId = projectId;
+    if (assignee && typeof assignee === 'string') filter.assignees = assignee;
+    
+    if (search && typeof search === 'string') {
+      const safeSearch = escapeRegex(search.trim());
+      if (safeSearch) {
+        filter.$or = [
+          { title: { $regex: safeSearch, $options: 'i' } },
+          { description: { $regex: safeSearch, $options: 'i' } },
+          { tags: { $in: [new RegExp(safeSearch, 'i')] } }
+        ];
+      }
     }
 
     const tasks = await Task.find(filter)
@@ -53,7 +63,7 @@ router.get('/', async (req, res) => {
 
     res.json(tasks);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Failed to fetch tasks' });
   }
 });
 
@@ -66,14 +76,31 @@ router.get('/:id', async (req, res) => {
     if (!task) return res.status(404).json({ error: 'Task not found' });
     res.json(task);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Failed to fetch task' });
   }
 });
 
 // CREATE task
 router.post('/', async (req, res) => {
   try {
-    const task = new Task(req.body);
+    const { title, description, status, priority, dueDate, estimatedHours, tags, assignees, projectId } = req.body;
+    
+    if (!title || typeof title !== 'string' || !title.trim()) {
+      return res.status(400).json({ error: 'Task title is required' });
+    }
+
+    const task = new Task({
+      title: title.trim(),
+      description: typeof description === 'string' ? description : '',
+      status: ['todo', 'in_progress', 'completed'].includes(status) ? status : 'todo',
+      priority: ['low', 'medium', 'high', 'urgent'].includes(priority) ? priority : 'medium',
+      dueDate: dueDate || null,
+      estimatedHours: typeof estimatedHours === 'number' ? Math.max(0, estimatedHours) : 0,
+      tags: Array.isArray(tags) ? tags : [],
+      assignees: Array.isArray(assignees) ? assignees : [],
+      projectId: projectId || null
+    });
+
     await task.save();
     await updateMemberTaskCounts();
 
@@ -81,14 +108,13 @@ router.post('/', async (req, res) => {
       .populate('assignees', 'name email role department avatar color')
       .populate('projectId', 'name key color');
 
-    // Emit real-time event if socket.io is available
     if (req.app.get('io')) {
       req.app.get('io').emit('task:created', populated);
     }
 
     res.status(201).json(populated);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ error: err.message || 'Failed to create task' });
   }
 });
 
@@ -112,23 +138,11 @@ router.put('/:id', async (req, res) => {
 
     res.json(updated);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ error: err.message || 'Failed to update task' });
   }
 });
 
-// CLEAR all tasks
-router.delete('/', async (req, res) => {
-  try {
-    await Task.deleteMany({});
-    await updateMemberTaskCounts();
-    if (req.app.get('io')) {
-      req.app.get('io').emit('tasks:cleared');
-    }
-    res.json({ message: 'All tasks cleared successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+// NOTE: Bulk DELETE /api/tasks route was removed for Critical security (preventing unauthenticated collection wipe)
 
 // DELETE single task
 router.delete('/:id', async (req, res) => {
@@ -144,7 +158,7 @@ router.delete('/:id', async (req, res) => {
 
     res.json({ message: 'Task deleted successfully', id: req.params.id });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Failed to delete task' });
   }
 });
 
@@ -155,7 +169,16 @@ router.post('/:id/comments', async (req, res) => {
     if (!task) return res.status(404).json({ error: 'Task not found' });
 
     const { author, avatar, text } = req.body;
-    task.comments.push({ author, avatar, text, createdAt: new Date() });
+    if (!text || typeof text !== 'string' || !text.trim()) {
+      return res.status(400).json({ error: 'Comment text is required' });
+    }
+
+    task.comments.push({
+      author: typeof author === 'string' ? author.trim() : 'Anonymous',
+      avatar: typeof avatar === 'string' ? avatar : null,
+      text: text.trim(),
+      createdAt: new Date()
+    });
     await task.save();
 
     const populated = await Task.findById(task._id)
@@ -168,7 +191,7 @@ router.post('/:id/comments', async (req, res) => {
 
     res.status(201).json(populated);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ error: err.message || 'Failed to add comment' });
   }
 });
 

@@ -60,14 +60,6 @@ export async function deleteTask(id) {
   return res.json();
 }
 
-export async function clearAllTasks() {
-  const res = await fetch(`${API_BASE}/tasks`, {
-    method: 'DELETE'
-  });
-  if (!res.ok) throw new Error('Failed to clear tasks');
-  return res.json();
-}
-
 export async function addTaskComment(id, comment) {
   const res = await fetch(`${API_BASE}/tasks/${id}/comments`, {
     method: 'POST',
