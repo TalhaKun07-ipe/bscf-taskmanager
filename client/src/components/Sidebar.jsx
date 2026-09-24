@@ -76,6 +76,8 @@ export default function Sidebar({
   projects = [],
   selectedProject,
   setSelectedProject,
+  tasks = [],
+  onOpenTaskModal,
   docs = [],
   selectedDocId,
   setSelectedDocId,
@@ -198,50 +200,89 @@ export default function Sidebar({
                 <FolderInitiativeIcon className="w-4 h-4 text-zinc-500 shrink-0" />
                 <span className="truncate">All Initiatives</span>
               </div>
+              <span className="text-[10px] text-zinc-500 font-mono bg-zinc-200/60 px-1.5 py-0.2 rounded-full">
+                {tasks.length}
+              </span>
             </button>
 
             {projects.map((p) => {
               const isSelected = selectedProject === p._id;
+              const projectTasks = tasks.filter(
+                (t) => (t.projectId?._id || t.projectId) === p._id
+              );
+
               return (
-                <div
-                  key={p._id}
-                  className={`group/item relative flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all cursor-pointer border ${
-                    isSelected
-                      ? 'bg-zinc-100 text-zinc-950 font-semibold border-zinc-200 shadow-2xs'
-                      : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 border-transparent'
-                  }`}
-                  onClick={() => {
-                    setSelectedProject(p._id);
-                    if (activeView === 'docs' || activeView === 'allocation') {
-                      setActiveView('board');
-                    }
-                  }}
-                >
-                  <div className="flex items-center gap-2 truncate flex-1 min-w-0">
-                    <span
-                      className="w-2.5 h-2.5 rounded-full shrink-0 ring-1 ring-black/10"
-                      style={{ backgroundColor: p.color || '#ea580c' }}
-                    ></span>
-                    <span className="truncate">{p.name}</span>
+                <div key={p._id} className="space-y-0.5">
+                  <div
+                    className={`group/item relative flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-all cursor-pointer border ${
+                      isSelected
+                        ? 'bg-zinc-100 text-zinc-950 font-semibold border-zinc-200 shadow-2xs'
+                        : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 border-transparent'
+                    }`}
+                    onClick={() => {
+                      setSelectedProject(p._id);
+                      if (activeView === 'docs' || activeView === 'allocation') {
+                        setActiveView('board');
+                      }
+                    }}
+                  >
+                    <div className="flex items-center gap-2 truncate flex-1 min-w-0">
+                      <span
+                        className="w-2.5 h-2.5 rounded-full shrink-0 ring-1 ring-black/10"
+                        style={{ backgroundColor: p.color || '#ea580c' }}
+                      ></span>
+                      <span className="truncate">{p.name}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <span className="text-[10px] text-zinc-500 font-mono bg-zinc-200/60 px-1.5 py-0.2 rounded-full">
+                        {projectTasks.length}
+                      </span>
+                      <span className="text-[10px] text-zinc-400 font-mono group-hover/item:hidden">
+                        {p.key}
+                      </span>
+                      {onDeleteProject && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDeleteProject(p._id, p.name);
+                          }}
+                          title={`Delete initiative ${p.name}`}
+                          className="hidden group-hover/item:flex p-1 rounded hover:bg-rose-50 text-zinc-400 hover:text-rose-600 transition-colors cursor-pointer"
+                        >
+                          <TrashDeleteIcon className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1 shrink-0">
-                    <span className="text-[10px] text-zinc-400 font-mono group-hover/item:hidden">
-                      {p.key}
-                    </span>
-                    {onDeleteProject && (
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onDeleteProject(p._id, p.name);
-                        }}
-                        title={`Delete initiative ${p.name}`}
-                        className="hidden group-hover/item:flex p-1 rounded hover:bg-rose-50 text-zinc-400 hover:text-rose-600 transition-colors cursor-pointer"
-                      >
-                        <TrashDeleteIcon className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                  </div>
+
+                  {/* Tasks nested inside this initiative */}
+                  {isSelected && projectTasks.length > 0 && (
+                    <div className="ml-5 pl-2 border-l border-zinc-200/90 space-y-0.5 py-1">
+                      {projectTasks.map((t) => (
+                        <div
+                          key={t._id}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (onOpenTaskModal) onOpenTaskModal(t);
+                          }}
+                          className="flex items-center gap-1.5 px-2 py-1 rounded-lg text-[11px] text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/90 transition-colors cursor-pointer truncate"
+                          title={t.title}
+                        >
+                          <span
+                            className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                              t.status === 'completed'
+                                ? 'bg-emerald-500'
+                                : t.status === 'in_progress'
+                                ? 'bg-amber-500'
+                                : 'bg-blue-500'
+                            }`}
+                          ></span>
+                          <span className="truncate">{t.title}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               );
             })}

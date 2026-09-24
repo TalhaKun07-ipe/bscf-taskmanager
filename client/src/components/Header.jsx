@@ -18,6 +18,8 @@ export default function Header({
   setSearchQuery,
   priorityFilter,
   setPriorityFilter,
+  selectedProjectObj,
+  taskCount = 0,
   onOpenCreateTask,
   onOpenCreateDoc
 }) {
@@ -37,14 +39,30 @@ export default function Header({
       {/* Left: Active View Title */}
       <div className="flex items-center gap-2.5 min-w-0">
         <div className="w-8 h-8 rounded-xl bg-orange-50/80 border border-orange-200 flex items-center justify-center shrink-0 shadow-2xs p-1">
-          <ActiveIcon className="w-5 h-5" />
+          {selectedProjectObj ? (
+            <span
+              className="w-3.5 h-3.5 rounded-full ring-2 ring-black/10"
+              style={{ backgroundColor: selectedProjectObj.color || '#ea580c' }}
+            ></span>
+          ) : (
+            <ActiveIcon className="w-5 h-5" />
+          )}
         </div>
         <div className="min-w-0">
-          <h2 className="font-bold text-sm text-zinc-900 tracking-tight truncate">
-            {currentView.label}
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 className="font-bold text-sm text-zinc-900 tracking-tight truncate">
+              {selectedProjectObj ? selectedProjectObj.name : currentView.label}
+            </h2>
+            {selectedProjectObj?.key && (
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-100 text-zinc-700 border border-zinc-200 font-semibold">
+                {selectedProjectObj.key}
+              </span>
+            )}
+          </div>
           <p className="text-[10px] font-medium text-zinc-500 truncate hidden sm:block">
-            {currentView.desc}
+            {selectedProjectObj
+              ? `Initiative Pipeline • ${taskCount} task${taskCount === 1 ? '' : 's'} assigned`
+              : currentView.desc}
           </p>
         </div>
       </div>

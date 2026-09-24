@@ -22,6 +22,7 @@ export default function TaskModal({
   onAddComment,
   members = [],
   projects = [],
+  defaultProjectId = '',
   currentMember
 }) {
   const isNew = !task?._id;
@@ -40,7 +41,7 @@ export default function TaskModal({
     (task?.assignees || []).map((a) => (typeof a === 'object' ? a._id : a))
   );
   const [projectId, setProjectId] = useState(
-    task?.projectId?._id || task?.projectId || (projects[0]?._id || '')
+    task?.projectId?._id || task?.projectId || defaultProjectId || (projects[0]?._id || '')
   );
   const [estimatedHours, setEstimatedHours] = useState(task?.estimatedHours || 0);
   const [tags, setTags] = useState(task?.tags || []);
@@ -56,33 +57,36 @@ export default function TaskModal({
   const [newCommentText, setNewCommentText] = useState('');
 
   useEffect(() => {
-    if (task) {
-      setTitle(task.title || '');
-      setDescription(task.description || '');
-      setStatus(task.status || 'todo');
-      setPriority(task.priority || 'medium');
-      setDueDate(task.dueDate ? format(new Date(task.dueDate), 'yyyy-MM-dd') : '');
-      setStartDate(task.startDate ? format(new Date(task.startDate), 'yyyy-MM-dd') : '');
-      setAssigneeIds((task.assignees || []).map((a) => (typeof a === 'object' ? a._id : a)));
-      setProjectId(task.projectId?._id || task.projectId || projects[0]?._id || '');
-      setEstimatedHours(task.estimatedHours || 0);
-      setTags(task.tags || []);
-      setSubtasks(task.subtasks || []);
-      setComments(task.comments || []);
-    } else {
-      setTitle('');
-      setDescription('');
-      setStatus('todo');
-      setPriority('medium');
-      setDueDate('');
-      setStartDate('');
-      setAssigneeIds([]);
-      setEstimatedHours(0);
-      setTags([]);
-      setSubtasks([]);
-      setComments([]);
+    if (isOpen) {
+      if (task) {
+        setTitle(task.title || '');
+        setDescription(task.description || '');
+        setStatus(task.status || 'todo');
+        setPriority(task.priority || 'medium');
+        setDueDate(task.dueDate ? format(new Date(task.dueDate), 'yyyy-MM-dd') : '');
+        setStartDate(task.startDate ? format(new Date(task.startDate), 'yyyy-MM-dd') : '');
+        setAssigneeIds((task.assignees || []).map((a) => (typeof a === 'object' ? a._id : a)));
+        setProjectId(task.projectId?._id || task.projectId || defaultProjectId || projects[0]?._id || '');
+        setEstimatedHours(task.estimatedHours || 0);
+        setTags(task.tags || []);
+        setSubtasks(task.subtasks || []);
+        setComments(task.comments || []);
+      } else {
+        setTitle('');
+        setDescription('');
+        setStatus('todo');
+        setPriority('medium');
+        setDueDate('');
+        setStartDate('');
+        setAssigneeIds([]);
+        setProjectId(defaultProjectId || projects[0]?._id || '');
+        setEstimatedHours(0);
+        setTags([]);
+        setSubtasks([]);
+        setComments([]);
+      }
     }
-  }, [task]);
+  }, [task, isOpen, defaultProjectId, projects]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 

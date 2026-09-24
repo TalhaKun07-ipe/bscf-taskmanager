@@ -98,43 +98,6 @@ export default function KanbanBoard({
               </div>
             </div>
 
-            {/* Quick Task Creator Form */}
-            {isAddingByCol[col.id] && (
-              <div className="p-2.5 border-b border-zinc-200 bg-white/80">
-                <input
-                  type="text"
-                  autoFocus
-                  placeholder="Task title..."
-                  value={quickTitleByCol[col.id] || ''}
-                  onChange={(e) =>
-                    setQuickTitleByCol((prev) => ({ ...prev, [col.id]: e.target.value }))
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleQuickAdd(col.id);
-                    if (e.key === 'Escape')
-                      setIsAddingByCol((prev) => ({ ...prev, [col.id]: false }));
-                  }}
-                  className="w-full text-xs bg-white border border-zinc-300 text-zinc-900 rounded-lg p-2 focus:outline-none focus:border-orange-500 mb-2 shadow-2xs"
-                />
-                <div className="flex items-center gap-2 justify-end">
-                  <button
-                    onClick={() =>
-                      setIsAddingByCol((prev) => ({ ...prev, [col.id]: false }))
-                    }
-                    className="text-[11px] px-2.5 py-1 text-zinc-500 hover:text-zinc-900"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() => handleQuickAdd(col.id)}
-                    className="text-[11px] px-3 py-1 rounded bg-orange-600 hover:bg-orange-500 text-white font-medium shadow-2xs"
-                  >
-                    Add
-                  </button>
-                </div>
-              </div>
-            )}
-
             {/* Tasks Container */}
             <div className="flex-1 overflow-y-auto p-2.5 space-y-2.5">
               {colTasks.map((task) => {
@@ -283,27 +246,9 @@ export default function KanbanBoard({
               })}
 
               {colTasks.length === 0 && (
-                <div className="py-8 flex flex-col items-center justify-center border border-dashed border-zinc-300 rounded-xl text-zinc-400 text-xs">
+                <div className="py-8 flex flex-col items-center justify-center border border-dashed border-zinc-200/90 rounded-xl text-zinc-400 text-xs">
                   <span>No cards</span>
-                  <button
-                    onClick={() =>
-                      setIsAddingByCol((prev) => ({ ...prev, [col.id]: true }))
-                    }
-                    className="text-orange-600 hover:text-orange-700 mt-1.5 flex items-center gap-1.5 text-[11px] font-semibold cursor-pointer"
-                  >
-                    <PlusAddIcon className="w-3.5 h-3.5" /> Add card
-                  </button>
                 </div>
-              )}
-
-              {colTasks.length > 0 && !isAddingByCol[col.id] && (
-                <button
-                  onClick={() => setIsAddingByCol((prev) => ({ ...prev, [col.id]: true }))}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-xs text-zinc-600 hover:text-zinc-950 hover:bg-zinc-200/50 rounded-lg transition-colors font-medium cursor-pointer"
-                >
-                  <PlusAddIcon className="w-3.5 h-3.5" />
-                  <span>New card</span>
-                </button>
               )}
             </div>
           </div>

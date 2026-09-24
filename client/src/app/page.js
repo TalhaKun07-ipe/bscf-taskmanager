@@ -325,6 +325,8 @@ export default function Home() {
         projects={projects}
         selectedProject={selectedProject}
         setSelectedProject={setSelectedProject}
+        tasks={tasks}
+        onOpenTaskModal={handleOpenTaskModal}
         docs={docs}
         selectedDocId={selectedDocId}
         setSelectedDocId={setSelectedDocId}
@@ -343,6 +345,8 @@ export default function Home() {
           setSearchQuery={setSearchQuery}
           priorityFilter={priorityFilter}
           setPriorityFilter={setPriorityFilter}
+          selectedProjectObj={projects.find((p) => p._id === selectedProject)}
+          taskCount={tasks.length}
           onOpenCreateTask={() => handleOpenTaskModal(null)}
           onOpenCreateDoc={handleCreateDoc}
         />
@@ -412,6 +416,7 @@ export default function Home() {
         onAddComment={handleAddComment}
         members={members}
         projects={projects}
+        defaultProjectId={selectedProject || projects[0]?._id || ''}
         currentMember={currentMember}
       />
 
